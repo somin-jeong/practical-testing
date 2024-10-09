@@ -15,8 +15,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-//@DataJpaTest
+@DataJpaTest
 @ActiveProfiles("test")
 class ProductRepositoryTest {
     @Autowired
