@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,7 +40,7 @@ class OrderServiceTest {
                 .build();
 
         // when
-        OrderResponse orderResponse = orderService.createOrder(request);
+        OrderResponse orderResponse = orderService.createOrder(request, LocalDateTime.now());
 
         // then
         assertThat(orderResponse.getId()).isNotNull();

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Entity
@@ -31,9 +32,13 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    public Order(List<Product> products) {
+    public Order(List<Product> products, LocalDateTime registeredDateTime) {
         this.orderStatus = OrderStatus.INIT;
         this.totalPrice = calculateTotalPrice(products);
+        this.registeredDateTime = registeredDateTime;
+        this.orderProducts = products.stream()
+                .map(product -> new OrderProduct(this, product))
+                .collect(Collectors.toList());
     }
 
     private int calculateTotalPrice(List<Product> products) {
@@ -42,7 +47,7 @@ public class Order extends BaseEntity {
                 .sum();
     }
 
-    public static Order create(List<Product> products) {
-        return new Order(products);
+    public static Order create(List<Product> products, LocalDateTime registeredDateTime) {
+        return new Order(products, registeredDateTime);
     }
 }
