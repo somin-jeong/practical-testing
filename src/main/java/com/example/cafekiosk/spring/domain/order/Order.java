@@ -2,6 +2,7 @@ package com.example.cafekiosk.spring.domain.order;
 
 import com.example.cafekiosk.spring.domain.BaseEntity;
 import com.example.cafekiosk.spring.domain.orderproduct.OrderProduct;
+import com.example.cafekiosk.spring.domain.product.Product;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -29,4 +30,12 @@ public class Order extends BaseEntity {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts = new ArrayList<>();
+
+    public Order(List<Product> products) {
+        this.orderStatus = OrderStatus.INIT;
+    }
+
+    public static Order create(List<Product> products) {
+        return new Order(products);
+    }
 }
