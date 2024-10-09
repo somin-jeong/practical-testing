@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cglib.core.Local;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,7 +26,7 @@ class OrderServiceTest {
     @Autowired
     private ProductRepository productRepository;
 
-    @DisplayName("주문번호 리스트를 받아 주문을 생성한다.")
+    @DisplayName("상품 번호 리스트를 받아 주문을 생성한다.")
     @Test
     void createOrder() {
         // given
@@ -39,19 +40,21 @@ class OrderServiceTest {
                 .productNumbers(List.of("001", "002"))
                 .build();
 
+        LocalDateTime registeredDateTime = LocalDateTime.now();
+
         // when
-        OrderResponse orderResponse = orderService.createOrder(request, LocalDateTime.now());
+        OrderResponse orderResponse = orderService.createOrder(request, registeredDateTime);
 
         // then
         assertThat(orderResponse.getId()).isNotNull();
         assertThat(orderResponse)
                 .extracting("registeredDateTime", "totalPrice")
-                .contains(LocalDateTime.now(), 4000);
+                .contains(registeredDateTime, 4000);
         assertThat(orderResponse.getProducts()).hasSize(2)
                 .extracting("productNumber", "price")
                 .containsExactlyInAnyOrder(
                         Tuple.tuple("001", 1000),
-                        Tuple.tuple("002", 2000)
+                        Tuple.tuple("002", 3000)
                 );
     }
 

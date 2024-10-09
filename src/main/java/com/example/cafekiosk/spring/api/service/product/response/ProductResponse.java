@@ -3,10 +3,13 @@ package com.example.cafekiosk.spring.api.service.product.response;
 import com.example.cafekiosk.spring.domain.product.Product;
 import com.example.cafekiosk.spring.domain.product.ProductSellingType;
 import com.example.cafekiosk.spring.domain.product.ProductType;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@Builder
 public class ProductResponse {
 
     private Long id;
@@ -21,7 +24,6 @@ public class ProductResponse {
 
     private int price;
 
-    @Builder
     public ProductResponse(Long id, String productNumber, ProductType type, ProductSellingType sellingType, String name, int price) {
         this.id = id;
         this.productNumber = productNumber;
