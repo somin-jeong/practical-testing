@@ -7,7 +7,12 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Getter
-@Builder
+@NoArgsConstructor
 public class OrderCreateRequest {
     private List<String> productNumbers;
+
+    @Builder
+    public OrderCreateRequest(List<String> productNumbers) {
+        this.productNumbers = productNumbers;
+    }
 }
