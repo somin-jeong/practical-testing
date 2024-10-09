@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +22,7 @@ public class OrderService {
 
     public OrderResponse createOrder(OrderCreateRequest request, LocalDateTime registeredDateTime) {
         List<String> productNumbers = request.getProductNumbers();
-
-        // 상품 번호 리스트로 상품 리스트 얻기
-        List<Product> productList = productRepository.findAllByProductNumberIn(productNumbers);
+        List<Product> productList = findProductsBy(productNumbers);
 
         // 주문 생성하기
         Order order = Order.create(productList, registeredDateTime);
@@ -30,5 +30,18 @@ public class OrderService {
         Order savedOrder = orderRepository.save(order);
 
         return OrderResponse.of(savedOrder);
+    }
+
+    private List<Product> findProductsBy(List<String> productNumbers) {
+        // 상품 번호 리스트로 상품 리스트 얻기
+        List<Product> productList = productRepository.findAllByProductNumberIn(productNumbers);
+
+        // ("001", product1) ("002", product2) ("003", product3)
+        Map<String, Product> productMap = productList.stream()
+                .collect(Collectors.toMap(Product::getProductNumber, p -> p));
+
+        return productNumbers.stream()
+                .map(productMap::get)
+                .collect(Collectors.toList());
     }
 }
