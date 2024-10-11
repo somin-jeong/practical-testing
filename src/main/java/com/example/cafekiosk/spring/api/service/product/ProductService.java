@@ -28,15 +28,23 @@ public class ProductService {
     public ProductResponse createProduct(ProductCreateRequest request) {
         // DB에서 마지막에 저장된 Product의 상품 번호를 읽어와서 +1
         // 009 -> 010
-
-        String latestProductNumber = productRepository.findLatestProductNumber();
+        String nextProductNumber = createNextProductNumber();
 
         return ProductResponse.builder()
-                .productNumber("004")
-                .type(ProductType.HANDMADE)
-                .sellingType(ProductSellingType.SEllING)
-                .name("카푸치노")
-                .price(5000)
+                .productNumber(nextProductNumber)
+                .type(request.getType())
+                .sellingType(request.getSellingType())
+                .name(request.getName())
+                .price(request.getPrice())
                 .build();
+    }
+
+    private String createNextProductNumber() {
+        String latestProductNumber = productRepository.findLatestProductNumber();
+
+        int latestProductNumberInt = Integer.valueOf(latestProductNumber);
+        int nextProductNumberInt = latestProductNumberInt + 1;
+
+        return String.format("%03d", nextProductNumberInt);
     }
 }

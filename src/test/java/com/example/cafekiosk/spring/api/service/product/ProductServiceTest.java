@@ -46,7 +46,7 @@ class ProductServiceTest {
 
         // then
         Assertions.assertThat(productResponse)
-                .extracting("productNumber", "type", "sellingStatus", "name", "price")
+                .extracting("productNumber", "type", "sellingType", "name", "price")
                 .contains("004", ProductType.HANDMADE, ProductSellingType.SEllING, "카푸치노", 5000);
     }
 
