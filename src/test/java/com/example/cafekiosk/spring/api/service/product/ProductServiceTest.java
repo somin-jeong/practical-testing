@@ -7,6 +7,7 @@ import com.example.cafekiosk.spring.domain.product.ProductSellingType;
 import com.example.cafekiosk.spring.domain.product.ProductType;
 import com.example.cafekiosk.spring.domain.product.repository.ProductRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
-import java.util.PriorityQueue;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -23,6 +23,11 @@ class ProductServiceTest {
     private ProductService productService;
     @Autowired
     private ProductRepository productRepository;
+
+    @AfterEach
+    void tearDown() {
+        productRepository.deleteAllInBatch();
+    }
 
     @DisplayName("가장 최근 상품의 상품 번호에서 1 증가한 상품 번호를 갖는 신규 상품을 등록한다.")
     @Test
@@ -48,6 +53,26 @@ class ProductServiceTest {
         Assertions.assertThat(productResponse)
                 .extracting("productNumber", "type", "sellingType", "name", "price")
                 .contains("004", ProductType.HANDMADE, ProductSellingType.SEllING, "카푸치노", 5000);
+    }
+
+    @DisplayName("상품이 하나도 없는 경우 신규 상품을 등록하면 상품 번호는 001이다.")
+    @Test
+    void createProductWhenProductsIsEmpty() {
+        // given
+        ProductCreateRequest request = ProductCreateRequest.builder()
+                .type(ProductType.HANDMADE)
+                .sellingType(ProductSellingType.SEllING)
+                .name("카푸치노")
+                .price(5000)
+                .build();
+
+        // when
+        ProductResponse productResponse = productService.createProduct(request);
+
+        // then
+        Assertions.assertThat(productResponse)
+                .extracting("productNumber", "type", "sellingType", "name", "price")
+                .contains("001", ProductType.HANDMADE, ProductSellingType.SEllING, "카푸치노", 5000);
     }
 
     private Product createProduct(String productNumber, ProductType type, ProductSellingType sellingType, String name, int price) {

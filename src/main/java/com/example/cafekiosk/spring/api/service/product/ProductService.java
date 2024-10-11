@@ -25,6 +25,9 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    // 동시셩 이슈
+    // DB의 ProductNumber라는 필드에 유니크 인덱스 제약조건을 걸고 재시도하는 로직을 추가한다. 누군가 먼저 번호를 선점했다면 재시도
+    // 해결: 상품 번호가 증가하는 값이 아니라 UUID 사용 -> 아예 유니크한 값
     public ProductResponse createProduct(ProductCreateRequest request) {
         // DB에서 마지막에 저장된 Product의 상품 번호를 읽어와서 +1
         // 009 -> 010
@@ -41,8 +44,11 @@ public class ProductService {
 
     private String createNextProductNumber() {
         String latestProductNumber = productRepository.findLatestProductNumber();
+        if (latestProductNumber == null) {
+            return "001";
+        }
 
-        int latestProductNumberInt = Integer.valueOf(latestProductNumber);
+        int latestProductNumberInt = Integer.parseInt(latestProductNumber);
         int nextProductNumberInt = latestProductNumberInt + 1;
 
         return String.format("%03d", nextProductNumberInt);
