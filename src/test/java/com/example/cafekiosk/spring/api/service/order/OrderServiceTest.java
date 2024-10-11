@@ -25,7 +25,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@Transactional
 @SpringBootTest
 @ActiveProfiles("test")
 class OrderServiceTest {
@@ -40,14 +39,14 @@ class OrderServiceTest {
     @Autowired
     private StockRepository stockRepository;
 
-//    @AfterEach
-//    void tearDown() {
-////        orderProductRepository.deleteAll();
-//        orderProductRepository.deleteAllInBatch();
-//        productRepository.deleteAllInBatch();
-//        orderRepository.deleteAllInBatch();
-//        stockRepository.deleteAllInBatch();
-//    }
+    @AfterEach
+    void tearDown() {
+//        orderProductRepository.deleteAll();
+        orderProductRepository.deleteAllInBatch();
+        productRepository.deleteAllInBatch();
+        orderRepository.deleteAllInBatch();
+        stockRepository.deleteAllInBatch();
+    }
 
     @DisplayName("상품 번호 리스트를 받아 주문을 생성한다.")
     @Test
