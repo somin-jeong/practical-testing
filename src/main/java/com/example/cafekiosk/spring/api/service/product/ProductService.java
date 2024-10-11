@@ -4,6 +4,7 @@ import com.example.cafekiosk.spring.api.service.product.request.ProductCreateReq
 import com.example.cafekiosk.spring.api.service.product.response.ProductResponse;
 import com.example.cafekiosk.spring.domain.product.Product;
 import com.example.cafekiosk.spring.domain.product.ProductSellingType;
+import com.example.cafekiosk.spring.domain.product.ProductType;
 import com.example.cafekiosk.spring.domain.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,12 @@ public class ProductService {
 
         String latestProductNumber = productRepository.findLatestProductNumber();
 
-        return null;
+        return ProductResponse.builder()
+                .productNumber("004")
+                .type(ProductType.HANDMADE)
+                .sellingType(ProductSellingType.SEllING)
+                .name("카푸치노")
+                .price(5000)
+                .build();
     }
 }
