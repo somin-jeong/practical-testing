@@ -6,7 +6,7 @@ import com.example.cafekiosk.spring.domain.product.Product;
 import com.example.cafekiosk.spring.domain.product.ProductSellingType;
 import com.example.cafekiosk.spring.domain.product.ProductType;
 import com.example.cafekiosk.spring.domain.product.repository.ProductRepository;
-import org.assertj.core.api.Assertions;
+import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -48,11 +50,22 @@ class ProductServiceTest {
 
         // when
         ProductResponse productResponse = productService.createProduct(request);
+        List<Product> products = productRepository.findAll();
 
         // then
-        Assertions.assertThat(productResponse)
+        assertThat(productResponse)
                 .extracting("productNumber", "type", "sellingType", "name", "price")
                 .contains("004", ProductType.HANDMADE, ProductSellingType.SEllING, "카푸치노", 5000);
+
+        assertThat(products).hasSize(4)
+                .extracting("productNumber", "type", "sellingType", "name", "price")
+                .containsExactlyInAnyOrder(
+                        Tuple.tuple("001", ProductType.HANDMADE, ProductSellingType.SEllING, "아메리카노", 4000),
+                        Tuple.tuple("002", ProductType.HANDMADE, ProductSellingType.HOLD, "카페라떼", 4500),
+                        Tuple.tuple("003", ProductType.HANDMADE, ProductSellingType.STOP_SELLING, "팥빙수", 7000),
+                        Tuple.tuple("004", ProductType.HANDMADE, ProductSellingType.SEllING, "카푸치노", 5000)
+                );
+
     }
 
     @DisplayName("상품이 하나도 없는 경우 신규 상품을 등록하면 상품 번호는 001이다.")
@@ -68,11 +81,18 @@ class ProductServiceTest {
 
         // when
         ProductResponse productResponse = productService.createProduct(request);
+        List<Product> products = productRepository.findAll();
 
         // then
-        Assertions.assertThat(productResponse)
+        assertThat(productResponse)
                 .extracting("productNumber", "type", "sellingType", "name", "price")
                 .contains("001", ProductType.HANDMADE, ProductSellingType.SEllING, "카푸치노", 5000);
+
+        assertThat(products).hasSize(1)
+                .extracting("productNumber", "type", "sellingType", "name", "price")
+                .containsExactlyInAnyOrder(
+                        Tuple.tuple("001", ProductType.HANDMADE, ProductSellingType.SEllING, "카푸치노", 5000)
+                );
     }
 
     private Product createProduct(String productNumber, ProductType type, ProductSellingType sellingType, String name, int price) {
