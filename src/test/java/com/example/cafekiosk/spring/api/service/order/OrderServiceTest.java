@@ -26,6 +26,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class OrderServiceTest {
     @Autowired
     private OrderService orderService;
@@ -115,8 +116,8 @@ class OrderServiceTest {
     @Test
     void createOrderWithStock() {
         // given
-        Product product1 = createProduct(ProductType.HANDMADE, "001", 1000);
-        Product product2 = createProduct(ProductType.HANDMADE, "002", 3000);
+        Product product1 = createProduct(ProductType.BOTTLE, "001", 1000);
+        Product product2 = createProduct(ProductType.BAKERY, "002", 3000);
         Product product3 = createProduct(ProductType.HANDMADE, "003", 5000);
         productRepository.saveAll(List.of(product1, product2, product3));
 
@@ -152,7 +153,7 @@ class OrderServiceTest {
                 .extracting("productNumber", "quantity")
                 .containsExactlyInAnyOrder(
                         Tuple.tuple("001", 0),
-                        Tuple.tuple("001", 1)
+                        Tuple.tuple("002", 1)
                 );
     }
 
