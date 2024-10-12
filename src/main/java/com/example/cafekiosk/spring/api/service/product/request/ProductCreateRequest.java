@@ -5,9 +5,10 @@ import com.example.cafekiosk.spring.domain.product.ProductSellingType;
 import com.example.cafekiosk.spring.domain.product.ProductType;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
+@NoArgsConstructor
 public class ProductCreateRequest {
     private ProductType type;
 
@@ -16,6 +17,14 @@ public class ProductCreateRequest {
     private String name;
 
     private int price;
+
+    @Builder
+    public ProductCreateRequest(ProductType type, ProductSellingType sellingType, String name, int price) {
+        this.type = type;
+        this.sellingType = sellingType;
+        this.name = name;
+        this.price = price;
+    }
 
     public Product toEntity(String nextProductNumber) {
         return Product.builder()
