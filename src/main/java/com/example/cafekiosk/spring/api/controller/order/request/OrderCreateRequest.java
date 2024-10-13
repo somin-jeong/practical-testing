@@ -1,4 +1,4 @@
-package com.example.cafekiosk.spring.api.service.order.request;
+package com.example.cafekiosk.spring.api.controller.order.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;

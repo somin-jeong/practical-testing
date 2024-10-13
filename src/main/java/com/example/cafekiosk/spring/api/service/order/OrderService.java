@@ -1,6 +1,6 @@
 package com.example.cafekiosk.spring.api.service.order;
 
-import com.example.cafekiosk.spring.api.service.order.request.OrderCreateRequest;
+import com.example.cafekiosk.spring.api.controller.order.request.OrderCreateRequest;
 import com.example.cafekiosk.spring.api.service.order.response.OrderResponse;
 import com.example.cafekiosk.spring.domain.order.Order;
 import com.example.cafekiosk.spring.domain.order.reporitory.OrderRepository;

@@ -2,9 +2,8 @@ package com.example.cafekiosk.spring.api.controller.order;
 
 import com.example.cafekiosk.spring.api.ApiResponse;
 import com.example.cafekiosk.spring.api.service.order.OrderService;
-import com.example.cafekiosk.spring.api.service.order.request.OrderCreateRequest;
+import com.example.cafekiosk.spring.api.controller.order.request.OrderCreateRequest;
 import com.example.cafekiosk.spring.api.service.order.response.OrderResponse;
-import com.example.cafekiosk.spring.domain.order.reporitory.OrderRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

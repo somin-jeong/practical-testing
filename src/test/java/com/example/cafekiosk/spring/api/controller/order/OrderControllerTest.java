@@ -1,7 +1,7 @@
 package com.example.cafekiosk.spring.api.controller.order;
 
 import com.example.cafekiosk.spring.api.service.order.OrderService;
-import com.example.cafekiosk.spring.api.service.order.request.OrderCreateRequest;
+import com.example.cafekiosk.spring.api.controller.order.request.OrderCreateRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
