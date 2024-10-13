@@ -1,6 +1,7 @@
 package com.example.cafekiosk.spring.api.service.product;
 
 import com.example.cafekiosk.spring.api.controller.product.request.ProductCreateRequest;
+import com.example.cafekiosk.spring.api.service.product.request.ProductCreateServiceRequest;
 import com.example.cafekiosk.spring.api.service.product.response.ProductResponse;
 import com.example.cafekiosk.spring.domain.product.Product;
 import com.example.cafekiosk.spring.domain.product.ProductSellingType;
@@ -41,7 +42,7 @@ class ProductServiceTest {
 
         productRepository.saveAll(List.of(product1, product2, product3));
 
-        ProductCreateRequest request = ProductCreateRequest.builder()
+        ProductCreateServiceRequest request = ProductCreateServiceRequest.builder()
                 .type(ProductType.HANDMADE)
                 .sellingType(ProductSellingType.SEllING)
                 .name("카푸치노")
@@ -72,7 +73,7 @@ class ProductServiceTest {
     @Test
     void createProductWhenProductsIsEmpty() {
         // given
-        ProductCreateRequest request = ProductCreateRequest.builder()
+        ProductCreateServiceRequest request = ProductCreateServiceRequest.builder()
                 .type(ProductType.HANDMADE)
                 .sellingType(ProductSellingType.SEllING)
                 .name("카푸치노")
