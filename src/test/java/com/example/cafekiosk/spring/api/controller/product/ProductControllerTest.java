@@ -1,7 +1,9 @@
 package com.example.cafekiosk.spring.api.controller.product;
 
+import com.example.cafekiosk.spring.api.ApiResponse;
 import com.example.cafekiosk.spring.api.service.product.ProductService;
 import com.example.cafekiosk.spring.api.service.product.request.ProductCreateRequest;
+import com.example.cafekiosk.spring.api.service.product.response.ProductResponse;
 import com.example.cafekiosk.spring.domain.product.ProductSellingType;
 import com.example.cafekiosk.spring.domain.product.ProductType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +18,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.List;
+
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 
 @WebMvcTest(controllers = ProductController.class)
@@ -118,4 +123,27 @@ class ProductControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("상품 가격은 0보다 커야합니다."))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty());
     }
+
+    @DisplayName("판매 상품을 조회한다.")
+    @Test
+    void getSellingProducts() throws Exception {
+        // given
+        List<ProductResponse> result = List.of();
+
+        when(productService.getSellingProducts()).thenReturn(result);
+
+        // when // then
+        mockMvc.perform(
+                    MockMvcRequestBuilders.get("/api/v1/products/selling")
+                )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("200"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("OK"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("OK"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data").isArray());
+    }
+
+    // 어떤 Product가 저장되어 있을 때 해당 product들을 조회하는 테스트는 서비스 단에서 끝남
+    // 컨트롤러 단에서는 Array 형태로 결과가 잘 들어오는가만 검증하면 됨
 }
