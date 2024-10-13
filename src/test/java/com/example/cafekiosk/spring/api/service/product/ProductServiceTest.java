@@ -1,6 +1,6 @@
 package com.example.cafekiosk.spring.api.service.product;
 
-import com.example.cafekiosk.spring.api.service.product.request.ProductCreateRequest;
+import com.example.cafekiosk.spring.api.controller.product.request.ProductCreateRequest;
 import com.example.cafekiosk.spring.api.service.product.response.ProductResponse;
 import com.example.cafekiosk.spring.domain.product.Product;
 import com.example.cafekiosk.spring.domain.product.ProductSellingType;

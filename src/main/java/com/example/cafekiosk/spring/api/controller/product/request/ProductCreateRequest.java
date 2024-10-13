@@ -1,4 +1,4 @@
-package com.example.cafekiosk.spring.api.service.product.request;
+package com.example.cafekiosk.spring.api.controller.product.request;
 
 import com.example.cafekiosk.spring.domain.product.Product;
 import com.example.cafekiosk.spring.domain.product.ProductSellingType;

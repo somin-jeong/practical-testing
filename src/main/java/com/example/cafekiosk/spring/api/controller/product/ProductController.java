@@ -2,11 +2,10 @@ package com.example.cafekiosk.spring.api.controller.product;
 
 import com.example.cafekiosk.spring.api.ApiResponse;
 import com.example.cafekiosk.spring.api.service.product.ProductService;
-import com.example.cafekiosk.spring.api.service.product.request.ProductCreateRequest;
+import com.example.cafekiosk.spring.api.controller.product.request.ProductCreateRequest;
 import com.example.cafekiosk.spring.api.service.product.response.ProductResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
