@@ -1,9 +1,11 @@
 package com.example.cafekiosk.spring.api.controller.order;
 
+import com.example.cafekiosk.spring.api.ApiResponse;
 import com.example.cafekiosk.spring.api.service.order.OrderService;
 import com.example.cafekiosk.spring.api.service.order.request.OrderCreateRequest;
 import com.example.cafekiosk.spring.api.service.order.response.OrderResponse;
 import com.example.cafekiosk.spring.domain.order.reporitory.OrderRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,9 +18,9 @@ import java.time.LocalDateTime;
 public class OrderController {
     private final OrderService orderService;
 
-    @PostMapping("api/v1/orders/new")
-    public OrderResponse createOrder(@RequestBody OrderCreateRequest request) {
+    @PostMapping("/api/v1/orders/new")
+    public ApiResponse<OrderResponse> createOrder(@Valid @RequestBody OrderCreateRequest request) {
         LocalDateTime registeredDateTime = LocalDateTime.now();
-        return orderService.createOrder(request, registeredDateTime);
+        return ApiResponse.of(orderService.createOrder(request, registeredDateTime));
     }
 }
